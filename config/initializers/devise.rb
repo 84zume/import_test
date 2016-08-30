@@ -248,7 +248,10 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-    config.omniauth :fitbit_oauth2, "227S7Z", "2d6f29efeabdefceefbd7cfe55dd9a13", scope: 'activity  heartrate profile'
+  #for production
+    config.omniauth :fitbit_oauth2, "227S3T", "9d0b38dec3384c74166dbe3fe2e9e296", scope: 'activity  heartrate profile'
+  #for development
+  #  config.omniauth :fitbit_oauth2, "227S7Z", "2d6f29efeabdefceefbd7cfe55dd9a13", scope: 'activity  heartrate profile'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
