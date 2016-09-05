@@ -53,3 +53,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 #fitbit
 gem 'devise'
 gem 'omniauth-fitbit-oauth2'
+gem 'faraday'

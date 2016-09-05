@@ -8,6 +8,14 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
       ## Omniauthable 内田追記
       t.string :uid
       t.string :provider
+            
+      t.string :access_token, limit: 2048
+      t.string :refresh_token, limit: 2048
+      t.string :expires_at
+
+      t.string :fitbit_token
+      t.string :fitbit_secret
+      ## 内田追記ここまで
 
       ## Recoverable
       t.string   :reset_password_token
@@ -43,4 +51,9 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.0]
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
   end
+#  def
+#    add_column :users, :fitbit_token, :string
+#    add_column :users, :fitbit_secret, :string
+#
+#  end
 end
