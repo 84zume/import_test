@@ -54,3 +54,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'omniauth-fitbit-oauth2'
 gem 'faraday'
+gem 'lazy_high_charts'

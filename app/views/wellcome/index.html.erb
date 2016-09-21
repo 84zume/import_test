@@ -11,8 +11,7 @@
 <% end %>
 
 
-
-
+<div id="chart"></div>
 <h1>ここから下に心拍表示</h1>
 <table border="1">
   <tr>
@@ -26,3 +25,60 @@
     </tr>
   <% end %>
 </table>
+
+
+<script type="text/javascript">
+<!--
+
+$('#chart').highcharts({
+    title:{
+      text: '心拍数遷移'
+    },    
+    yAxis: [{ // Primary yAxisの定義
+      title: {text: '心拍数',style: {color: '#e74c3c'}},
+      labels: {format: '{value}bpm',style: {color: '#c0392b'}},
+      opposite: false, //右側の軸
+      plotBands : [{ // ゾーンを描画（例えば安全範囲のようなゾーンを描ける）
+        from : 136,
+        to : 97,
+        color : 'rgba(241, 196, 15, 0.2)',
+        label : {text : 'ゾーン表示'}
+      }],
+      plotLines : [{ // 線の描画(上限のような線を描ける）
+        value : 140,
+        color : '#3A5574',
+        dashStyle : 'shortdash',
+        width : 2,
+        label : {text : '線の説明'}
+      }],
+    //  max: 200, // y軸の最大値。これにならない場合があるので、書かない(自動になる)ほうが良いかも
+    //  min: 0 // y軸の最小値。但し２軸になると有効ではなくならう
+    },{ // Secondary yAxisの定義(省略)
+     title: {text:''}
+    }],
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: { //たぶんseriesで与える時間データで表示が決まる
+        second: '%H:%M:%S',
+        minute: '%H:%M',
+        hour: '%m/%e %H:%M',
+        day: '%y/%m/%e',
+        week: '%y/%m/%e',
+        month: '%Y/%m',
+        year: '(%Y)'
+      },
+      title: {text: null} // 横軸のタイトル。nullは表示しない
+    },
+    series: [{
+        name: '心拍数', // Y軸のラベル名
+        color: '#3498db', // nameの色
+        type: 'line', // 棒グラフ指定の場合。lineにすると折れ線グラフになる
+        pointInterval: 24 * 3600 * 1000, // 1日単位。
+        pointStart: Date.UTC(2016, 9, 1), //開始日
+        yAxis: 0, //2番目のyAxisのデータという意味。0もしくは記載しない場合は1番目
+        data: <%= @heartrates %>,
+        tooltip: {valueSuffix: 'bpm'} //ポップアップに表示される単位指定
+    }]
+});
+// -->
+</script>
