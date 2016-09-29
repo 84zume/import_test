@@ -251,7 +251,7 @@ Devise.setup do |config|
   #for production
     config.omniauth :fitbit_oauth2, "227S3T", "9d0b38dec3384c74166dbe3fe2e9e296", scope: 'activity  heartrate location nutrition profile settings sleep social weight'
   #for development
-  #  config.omniauth :fitbit_oauth2, "227S7Z", "8a0297c384667664b9ff6ecc3771bf54", scope: 'activity heartrate location nutrition profile settings sleep social weight'
+  # config.omniauth :fitbit_oauth2, "227S7Z", "8a0297c384667664b9ff6ecc3771bf54", scope: 'activity heartrate location nutrition profile settings sleep social weight'
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

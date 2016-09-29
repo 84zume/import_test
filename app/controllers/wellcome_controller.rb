@@ -1,4 +1,5 @@
 require 'faraday'
+require 'kconv'
 class WellcomeController < ApplicationController
   before_action :authenticate_user!  
 
@@ -41,5 +42,31 @@ class WellcomeController < ApplicationController
       redirect_to root_url
     end
 =end
+
+  #アップロードファイルを取得
+  @uploadedFile = Dir.glob("public/docs/*")
+  p 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  p @uploadedFile
+  end
+  
+  #もし、取り込み済みのものと名前がかぶったらエラーにしたければindexメソッド下部のようにファイル名取ってくる
+  def upload_process
+    #アップロードファイルを取得
+    file = params[:upfile]
+    #ファイルの名前を取得
+    name = file.original_filename
+    #許可する許可する拡張子を定義 (現段階でどのファイル形式かは決まってないので、コメントアウト)
+  #  perms = ['.jpg','.jpeg']
+   # if !perms.include?(File.extname(name).downcase)
+   #   result = 'アップロードできるのは、。。。。ファイルのみです。'
+   # elseif file.size > 1.megabyte
+   #   result = '１MBまでです。'
+  #  else
+      name = name.kconv(Kconv::SJIS, Kconv::UTF8)
+      #/public/docフォルダにファイル格納
+      File.open("public/docs/#{name}", 'wb') { |f| f.write(file.read) }
+      result = "#{name.toutf8}をアップロードしました。"
+   # end
+      render text: result
   end
 end

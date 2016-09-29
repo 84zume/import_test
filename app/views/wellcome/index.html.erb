@@ -6,6 +6,26 @@
   <%= date_field_tag(:inputDate, Time.now.strftime("%Y-%m-%d")) %>
   <%= submit_tag("Search") %>
 <% end %>
+
+<br /><br />
+<!-- ファイルアップロード時には、mulipartオプション有効にしなければならない -->
+<%= form_tag({ action: :upload_process}, multipart: true) do %>
+  <label>ファイルを指定:
+    <%= file_field_tag :upfile, size: 50 %></label>
+  <%= submit_tag 'アップロード' %>
+<% end %>
+<p>------------アップロード済みファイル------------</p>
+<% if @uploadedFile.nil? %>
+  <p>アップロードされているファイルはございません。</p>
+<% else %>
+  <% @uploadedFile.each do |file| %>
+    <p>
+      ・<%= file[12,file.length] %>
+    </p>
+   <% end %>
+<% end %>
+<p>------------------------------------------------</p>
+
 <% if user_signed_in? %>
   Signed in as <%= current_user.email %>.
   <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
