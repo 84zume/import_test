@@ -1,11 +1,6 @@
-<h1>Wellcome#index</h1>
-<p>Find me in app/views/wellcome/index.html.erb</p>
+<h1>heartrates#index</h1>
 
-<%= form_tag("/heartrate_search/index",method: "post") do %>
-  <%= label_tag(:q, "Search for:") %>
-  <%= date_field_tag(:inputDate, Time.now.strftime("%Y-%m-%d")) %>
-  <%= submit_tag("Search") %>
-<% end %>
+
 <% if user_signed_in? %>
   Signed in as <%= current_user.email %>.
   <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
@@ -14,11 +9,15 @@
   <%= link_to "Sign in", new_user_session_path %>
 <% end %>
 
-<%
-=begin
-%>
+<%= form_tag("/heartrate_search/index",method: "post") do %>
+  <%= label_tag(:q, "Search for:") %>
+  <%= date_field_tag(:inputDate, @inputDate) %>
+  <%= submit_tag("Search") %>
+<% end %>
 <div id="chart"></div>
-<h1>ここから下に心拍表示</h1>
+<% if @messages.empty? %>
+<p>ご指定の日付の心拍数はございません。</p>
+<% else %>
 <table border="1">
   <tr>
     <th>取得時間</th>
@@ -31,9 +30,7 @@
     </tr>
   <% end %>
 </table>
-<%
-=end
-%>
+<% end %>
 <script type="text/javascript">
 <!--
 
@@ -76,10 +73,40 @@ $('#chart').highcharts({
       },
       title: {text: null} // 横軸のタイトル。nullは表示しない
     },
+    legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
     series: [{
         name: '心拍数', // Y軸のラベル名
         color: '#3498db', // nameの色
-        type: 'line', // 棒グラフ指定の場合。lineにすると折れ線グラフになる
+        type: 'area', // 棒グラフ指定の場合。lineにすると折れ線グラフになる
         pointInterval: 24 * 3600 * 1000, // 1日単位。
         pointStart: Date.UTC(2016, 9, 1), //開始日
         yAxis: 0, //2番目のyAxisのデータという意味。0もしくは記載しない場合は1番目
