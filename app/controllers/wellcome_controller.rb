@@ -45,8 +45,6 @@ class WellcomeController < ApplicationController
 
   #アップロードファイルを取得
   @uploadedFile = Dir.glob("public/docs/*")
-  p 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-  p @uploadedFile
   end
   
   #もし、取り込み済みのものと名前がかぶったらエラーにしたければindexメソッド下部のようにファイル名取ってくる

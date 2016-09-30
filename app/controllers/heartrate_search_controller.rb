@@ -24,21 +24,18 @@ class HeartrateSearchController < ApplicationController
       end
       # Assign the resulting value to the @messages
       # variable to make it available to the view template.
-      if @messages.present?
-        @messages = JSON.parse(response.body)['activities-heart-intraday']['dataset']
-        # JSONの中身見れる↓
-        # p JSON.parse(response.body)['activities-heart-intraday']['dataset']
-        @heartrates = '['
-        @messages.each do |message|
-          @heartrates = "#{@heartrates}[Date.UTC(2016,9,1,#{message['time'].to_s[0,2]},#{message['time'].to_s[3,2]},#{message['time'].to_s[6,2]}),#{message['value'].to_s}],"
-        end
-        @heartrates = "#{@heartrates.chop}]"
+      @messages = JSON.parse(response.body)['activities-heart-intraday']['dataset']
+      # JSONの中身見れる↓
+      # p JSON.parse(response.body)['activities-heart-intraday']['dataset']
+      @heartrates = '['
+      @messages.each do |message|
+        @heartrates = "#{@heartrates}[Date.UTC(2016,9,1,#{message['time'].to_s[0,2]},#{message['time'].to_s[3,2]},#{message['time'].to_s[6,2]}),#{message['value'].to_s}],"
+      end
+      @heartrates = "#{@heartrates.chop}]"
 #      @graph =  LazyHighCharts::HighChart.new('graph') do |f|
 #        f.title(text: '2016-09-01の心拍数の遷移')
 #        f.series(name: '心拍数',data: @heartrates,turboThreshold:5000)
 #      end
-      end
-
     else
       redirect_to root_url
     end
